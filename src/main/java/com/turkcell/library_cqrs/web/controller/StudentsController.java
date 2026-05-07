@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.library_cqrs.application.features.student.command.create.CreateStudentCommand;
+import com.turkcell.library_cqrs.application.features.student.command.create.CreatedCategoryResponse;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class StudentsController {
     }
 
     @PostMapping
-    public UUID create(@RequestBody CreateStudentCommand command) {
+    public CreatedCategoryResponse create(@RequestBody CreateStudentCommand command) {
         return mediator.send(command);
     }
     

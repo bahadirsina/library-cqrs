@@ -10,6 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.ResolvableType;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+
 @Component
 public class SpringMediator implements Mediator {
 
@@ -34,12 +36,16 @@ public class SpringMediator implements Mediator {
     }
 
     public Object resolveHandler(Class<?> requestType, Class<?> handlerInterface) {
-        ResolvableType handlerType = ResolvableType.forClassWithGenerics(handlerInterface, requestType);
-        String[] beans = context.getBeanNamesForType(handlerType);
-        if (beans.length == 0) {
-            throw new IllegalStateException("Handler Bulunumadı." + requestType.getSimpleName());
-        }
-        return context.getBean(beans[0]);
+        Map<String, ?> candidates = context.getBeansOfType(handlerInterface);
+
+        return candidates.values().stream()
+                .filter(bean -> {
+                    ResolvableType type = ResolvableType.forClass(bean.getClass()).as(handlerInterface);
+                    Class<?> handledType = type.getGeneric(0).resolve();
+                    return requestType.equals(handledType);
+                })
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Handler Bulunumadı." + requestType.getSimpleName()));
     }
 
 }

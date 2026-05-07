@@ -1,0 +1,13 @@
+spring:
+    application:
+        name: library-cqrs
+    
+    datasource:
+        url: jdbc:postgresql://localhost:5432/library2
+        username: admin
+        password: admin
+        driver-class-name: org.postgresql.Driver
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: true
