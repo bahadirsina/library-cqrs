@@ -2,22 +2,24 @@ package com.turkcell.library_cqrs.application.features.student.command.create;
 
 import org.springframework.stereotype.Component;
 
+import com.turkcell.library_cqrs.application.features.student.mapper.StudentMapper;
 import com.turkcell.library_cqrs.application.features.student.rule.StudentBusinessRules;
 import com.turkcell.library_cqrs.core.mediator.cqrs.CommandHandler;
 import com.turkcell.library_cqrs.domain.Student;
 import com.turkcell.library_cqrs.persistence.repository.StudentRepository;
 
-import java.util.UUID;
 
 @Component
 public class CreateStudentCommandHandler implements CommandHandler<CreateStudentCommand, CreatedCategoryResponse> {
 
     private final StudentRepository studentRepository;
     private final StudentBusinessRules studentBusinessRules;
+    private final StudentMapper studentMapper;
 
-    public CreateStudentCommandHandler(StudentRepository studentRepository, StudentBusinessRules studentBusinessRules) {
+    public CreateStudentCommandHandler(StudentRepository studentRepository, StudentBusinessRules studentBusinessRules, StudentMapper studentMapper) {
         this.studentRepository = studentRepository;
         this.studentBusinessRules = studentBusinessRules;
+        this.studentMapper = studentMapper;
     }
 
     @Override
@@ -26,27 +28,14 @@ public class CreateStudentCommandHandler implements CommandHandler<CreateStudent
         // Örneğin, veritabanına kaydedebilir ve oluşturulan öğrencinin ID'sini döndürebilirsiniz.
         // Örnek olarak rastgele bir UUID döndürülüyor
 
-        studentBusinessRules.studentWithSameStudentNoMustNotExist(command.studentNo());
+        studentBusinessRules.studentWithSameStudentNoMustNotExist(command.studentNo()); // rules
 
-        Student student = new Student();
-        student.setName(command.name());
-        student.setSurname(command.surname());
-        student.setEmail(command.email());
-        student.setAge(command.age());
-        student.setPhone(command.phone());
-        student.setStudentNo(command.studentNo());
+        Student student = studentMapper.studentFromCreateCommand(command); // mapper
 
-        Student savedStudent = studentRepository.save(student);
+        Student savedStudent = studentRepository.save(student); // repository
 
-        CreatedCategoryResponse response = new CreatedCategoryResponse(
-                savedStudent.getId(),
-                savedStudent.getName(),
-                savedStudent.getSurname(),
-                savedStudent.getEmail(),
-                savedStudent.getPhone(),
-                savedStudent.getStudentNo(),
-                savedStudent.getAge()
-        );
+        CreatedCategoryResponse response = studentMapper.createdCategoryResponseFromStudent(savedStudent); // mapper
+       
         return response;
     }
 
