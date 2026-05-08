@@ -2,6 +2,7 @@ package com.turkcell.library_cqrs.application.features.student.command.register;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.turkcell.library_cqrs.core.logging.LoggableRequest;
 import com.turkcell.library_cqrs.core.mediator.cqrs.Command;
 
 import jakarta.validation.constraints.Email;
@@ -13,10 +14,10 @@ public record RegisterCommand(
     @NotBlank String surname,
     @NotBlank String phone,
     @NotBlank String studentNo,
-    @NotBlank Integer age,
+    Integer age,
     @NotBlank @Email String email,
     @NotBlank @Length(min = 3) String password
 
-) implements Command<RegisterResponse> {
+) implements Command<RegisterResponse>, LoggableRequest {
 
 }
