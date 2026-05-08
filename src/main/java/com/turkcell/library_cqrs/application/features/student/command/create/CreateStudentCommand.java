@@ -29,10 +29,14 @@ public record CreateStudentCommand(
     @NotBlank(message = "Öğrenci numarası boş olamaz")
     @Size(max = 100, message = "Öğrenci numarası maksimum 100 karakter olmalıdır")
     String studentNo,
+
+    @NotBlank(message = "Şifre boş olamaz")
+    @Size(max = 100, message = "Şifre maksimum 100 karakter olmalıdır")
+    String password,
     
     @NotNull(message = "Yaş boş olamaz")
     @Positive(message = "Yaş pozitif bir sayı olmalıdır")
     Integer age
-) implements Command<CreatedCategoryResponse> {
+) implements Command<CreatedStudentResponse> {
 
 }

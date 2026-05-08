@@ -10,7 +10,7 @@ import com.turkcell.library_cqrs.persistence.repository.StudentRepository;
 
 
 @Component
-public class CreateStudentCommandHandler implements CommandHandler<CreateStudentCommand, CreatedCategoryResponse> {
+public class CreateStudentCommandHandler implements CommandHandler<CreateStudentCommand, CreatedStudentResponse> {
 
     private final StudentRepository studentRepository;
     private final StudentBusinessRules studentBusinessRules;
@@ -23,7 +23,7 @@ public class CreateStudentCommandHandler implements CommandHandler<CreateStudent
     }
 
     @Override
-    public CreatedCategoryResponse handle(CreateStudentCommand command) {
+    public CreatedStudentResponse handle(CreateStudentCommand command) {
         // Öğrenci oluşturma işlemi burada gerçekleştirilecek
         // Örneğin, veritabanına kaydedebilir ve oluşturulan öğrencinin ID'sini döndürebilirsiniz.
         // Örnek olarak rastgele bir UUID döndürülüyor
@@ -34,7 +34,7 @@ public class CreateStudentCommandHandler implements CommandHandler<CreateStudent
 
         Student savedStudent = studentRepository.save(student); // repository
 
-        CreatedCategoryResponse response = studentMapper.createdCategoryResponseFromStudent(savedStudent); // mapper
+        CreatedStudentResponse response = studentMapper.createdStudentResponseFromStudent(savedStudent); // mapper
        
         return response;
     }

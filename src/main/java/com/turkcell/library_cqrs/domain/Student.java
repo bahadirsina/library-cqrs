@@ -28,6 +28,10 @@ public class Student {
     @Column(length = 100)
     private String phone;
 
+    @JsonIgnore
+    @Column(length = 100)
+    private String password;
+
     @Column(name = "student_no", length = 100)
     private String studentNo;
 
@@ -76,6 +80,14 @@ public class Student {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getStudentNo() {

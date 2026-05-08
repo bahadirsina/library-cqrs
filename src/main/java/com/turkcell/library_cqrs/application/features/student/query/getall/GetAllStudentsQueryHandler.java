@@ -1,6 +1,5 @@
 package com.turkcell.library_cqrs.application.features.student.query.getall;
 
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

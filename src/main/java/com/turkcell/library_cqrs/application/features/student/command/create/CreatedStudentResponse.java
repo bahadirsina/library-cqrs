@@ -2,7 +2,7 @@ package com.turkcell.library_cqrs.application.features.student.command.create;
 
 import java.util.UUID;
 
-public record CreatedCategoryResponse(
+public record CreatedStudentResponse(
     UUID id,
     String name,
     String surname,

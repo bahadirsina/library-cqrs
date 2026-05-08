@@ -4,12 +4,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.turkcell.library_cqrs.application.features.student.command.create.CreateStudentCommand;
-import com.turkcell.library_cqrs.application.features.student.command.create.CreatedCategoryResponse;
+import com.turkcell.library_cqrs.application.features.student.command.create.CreatedStudentResponse;
 import com.turkcell.library_cqrs.application.features.student.query.getall.GetAllStudentsQuery;
 import com.turkcell.library_cqrs.application.features.student.query.getall.GetAllStudentsResponse;
 import com.turkcell.library_cqrs.core.mediator.Mediator;
-import com.turkcell.library_cqrs.domain.Student;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ public class StudentsController {
     }
 
     @PostMapping
-    public CreatedCategoryResponse create(@RequestBody CreateStudentCommand command) {
+    public CreatedStudentResponse create(@Valid @RequestBody CreateStudentCommand command) {
         return mediator.send(command);
     }
     @GetMapping
